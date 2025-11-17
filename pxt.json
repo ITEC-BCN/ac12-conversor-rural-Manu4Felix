@@ -8,13 +8,14 @@
         "main.blocks",
         "main.ts",
         "README.md",
-        "assets.json"
+        "assets.json",
+        "main.py"
     ],
     "testFiles": [
         "test.ts"
     ],
     "targetVersions": {
-        "target": "2.0.61",
+        "target": "2.0.62",
         "targetId": "arcade"
     },
     "supportedTargets": [
