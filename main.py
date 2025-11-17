@@ -1,11 +1,71 @@
+def llegarArbol():
+    pass
 def menu():
-    game.show_long_text("Menú de trueque rural 1) Gallinas 2) Patatas (kg) 3) Cabras 4) Huevos 5) Caballos 6) Salir",
-        DialogLayout.FULL)
+    global menu_activo, opcion_menu
+    menu_activo = True
+    opcion_menu = 1
+    # Fondo blanco para el menú
+    scene.set_background_color(1)
+    # Ocultamos la paloma mientras estamos en el menú
+    paloma.set_flag(SpriteFlag.INVISIBLE, True)
+    dibujar_menu()
+# Si ves que el fondo se queda blanco, vuelve a poner aquí tu imagen:
+# scene.set_background_image(img(""" ... """))
 
 def on_a_pressed():
-    menu()
+    pass
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
+def inicio():
+    game.splash("\"¡Bienvenido al intercambio rural!\"", "")
+def salir_menu():
+    global menu_activo
+    menu_activo = False
+    # Vuelve a tu escena de juego (paloma + lago)
+    paloma.set_flag(SpriteFlag.INVISIBLE, False)
+
+def on_on_overlap(sprite, otherSprite):
+    menu()
+sprites.on_overlap(SpriteKind.player, SpriteKind.food, on_on_overlap)
+
+def dibujar_menu():
+    # Rellena toda la pantalla con blanco (color 1)
+    screen.fill(1)
+    screen.print("Menú de trueque rural", 10, 5, 15)
+    # 1) Gallinas
+    if opcion_menu == 1:
+        screen.print("> Gallinas", 10, 20, 15)
+    else:
+        screen.print("  Gallinas", 10, 20, 15)
+    # 2) Patatas
+    if opcion_menu == 2:
+        screen.print("> Patatas (kg)", 10, 30, 15)
+    else:
+        screen.print("  Patatas (kg)", 10, 30, 15)
+    # 3) Cabras
+    if opcion_menu == 3:
+        screen.print("> Cabras", 10, 40, 15)
+    else:
+        screen.print("  Cabras", 10, 40, 15)
+    # 4) Huevos
+    if opcion_menu == 4:
+        screen.print("> Huevos", 10, 50, 15)
+    else:
+        screen.print("  Huevos", 10, 50, 15)
+    # 5) Caballos
+    if opcion_menu == 5:
+        screen.print("> Caballos", 10, 60, 15)
+    else:
+        screen.print("  Caballos", 10, 60, 15)
+    # 6) Salir
+    if opcion_menu == 6:
+        screen.print("> Salir", 10, 70, 15)
+    else:
+        screen.print("  Salir", 10, 70, 15)
+menu_activo = False
+paloma: Sprite = None
+opcion_menu = 0
+opcion_menu = 1
 scene.set_background_image(img("""
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
@@ -128,7 +188,44 @@ scene.set_background_image(img("""
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     ee88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     """))
-mySprite = sprites.create(img("""
+arbol = sprites.create(img("""
+        .....75....757....57..7.....77..
+        ..5.55555.577775..755.7..7757...
+        ..5.577.565747.766777766775e777.
+        ....775.77577667677676776767777.
+        55.757.75676777777777767c77667..
+        7e5454777777765567776766677677.7
+        ..77757777777566667676566777677.
+        .5.7657577775777777667677766766.
+        .7777674576767777676677677776767
+        ..77..77777577777777577757767c67
+        ..775755777755777777577777776777
+        .55557755.7567777777677777566.66
+        .557777ee7677767767767767667677.
+        .577.77777777767767e67776767....
+        .5577777.775777776776776676777.6
+        5..777777.77777777776767767766..
+        5.557...77777777776767767667.66.
+        ..555.7777.77.756767cc667677676.
+        ...7...77777.777676657767776776.
+        .....77....7.5577e7665.7...666..
+        .....57....77..666767..7.6......
+        .....7..........4eeee.6.........
+        ................46ee6...........
+        ................4eeec...........
+        ................4eeec...........
+        ...............e4eece...........
+        ...............eeeece...........
+        ..............44eeecce..........
+        ............444eeeeccc..........
+        .........eee44ee.ececccec.......
+        .......eeee.4ee..ece.cccec......
+        ....eee....e......e...eee.ccee..
+        """),
+    SpriteKind.food)
+arbol.set_scale(1, ScaleAnchor.TOP_LEFT)
+arbol.set_position(15, 45)
+paloma = sprites.create(img("""
         ............................................................cc.....
         ...........................................................ccc.....
         ...........................................................cdc.....
@@ -201,7 +298,10 @@ mySprite = sprites.create(img("""
         .................................bbbbbbbbbb........................
         """),
     SpriteKind.player)
-controller.move_sprite(mySprite, 100, 100)
+paloma.set_scale(0.5, ScaleAnchor.BOTTOM_RIGHT)
+paloma.set_position(143, 100)
+controller.move_sprite(paloma, 100, 100)
+paloma.set_bounce_on_wall(True)
 
 def on_forever():
     pass
