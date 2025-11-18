@@ -1,16 +1,27 @@
+function trueque_cabras () {
+	
+}
+function trueque_patatas () {
+	
+}
 function menu () {
     menu_activo = true
     opcion_menu = 1
     // Ocultamos la paloma mientras estamos en el menú
     paloma.setFlag(SpriteFlag.Invisible, true)
-    dibujar_menu()
+}
+function trueque_caballos () {
+	
+}
+function trueque_huevos () {
+	
 }
 // Si ves que el fondo se queda blanco, vuelve a poner aquí tu imagen:
 // scene.set_background_image(img(""" ... """))
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 	
 })
-function iniciarJuego () {
+function iniciar_juego () {
     opcion_menu = 1
     scene.setBackgroundImage(img`
         6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
@@ -247,55 +258,33 @@ function iniciarJuego () {
     controller.moveSprite(paloma, 100, 100)
     paloma.setBounceOnWall(true)
 }
+function trueque_gallina () {
+	
+}
 function salir_menu () {
     menu_activo = false
     // Vuelve a tu escena de juego (paloma + lago)
     paloma.setFlag(SpriteFlag.Invisible, false)
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    dibujar_menu()
     menu()
 })
 function dibujar_menu () {
-    //  Rellena toda la pantalla con blanco (color 1)
-    screen.fill(1)
-    screen.print("Menú de trueque rural", 10, 5, 15)
-// 1) Gallinas
-    if (opcion_menu == 1) {
-        screen.print("> Gallinas", 10, 20, 15)
-    } else {
-        screen.print("  Gallinas", 10, 20, 15)
-    }
-    // 2) Patatas
-    if (opcion_menu == 2) {
-        screen.print("> Patatas (kg)", 10, 30, 15)
-    } else {
-        screen.print("  Patatas (kg)", 10, 30, 15)
-    }
-    // 3) Cabras
-    if (opcion_menu == 3) {
-        screen.print("> Cabras", 10, 40, 15)
-    } else {
-        screen.print("  Cabras", 10, 40, 15)
-    }
-    // 4) Huevos
-    if (opcion_menu == 4) {
-        screen.print("> Huevos", 10, 50, 15)
-    } else {
-        screen.print("  Huevos", 10, 50, 15)
-    }
-    // 5) Caballos
-    if (opcion_menu == 5) {
-        screen.print("> Caballos", 10, 60, 15)
-    } else {
-        screen.print("  Caballos", 10, 60, 15)
-    }
-    // 6) Salir
-    if (opcion_menu == 6) {
-        screen.print("> Salir", 10, 70, 15)
-    } else {
-        screen.print("  Salir", 10, 70, 15)
-    }
+    myMenu = miniMenu.createMenu(
+    miniMenu.createMenuItem("Gallinas"),
+    miniMenu.createMenuItem("Patatas (kg)"),
+    miniMenu.createMenuItem("Cabras"),
+    miniMenu.createMenuItem("Huevos"),
+    miniMenu.createMenuItem("Caballos"),
+    miniMenu.createMenuItem("Salir"),
+    miniMenu.createMenuItem(""),
+    miniMenu.createMenuItem("")
+    )
+    myMenu.setDimensions(100, 75)
+    myMenu.setPosition(75, 60)
 }
+let myMenu: miniMenu.MenuSprite = null
 let arbol: Sprite = null
 let paloma: Sprite = null
 let opcion_menu = 0
@@ -424,7 +413,7 @@ scene.setBackgroundImage(img`
     `)
 game.splash("¡Bienvenido al Intercambio Rural!")
 game.splash("Dirige a la paloma hacia su nido.")
-iniciarJuego()
+iniciar_juego()
 forever(function () {
 	
 })
