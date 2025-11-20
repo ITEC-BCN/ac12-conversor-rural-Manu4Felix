@@ -257,23 +257,27 @@ function iniciar_juego () {
     paloma.setBounceOnWall(true)
 }
 function trueque_gallina () {
-    let kilos: number;
-let mensaje: any;
-// Cerrar el mini-menú mientras hacemos el cálculo
+    // Cerrar el mini-menú mientras hacemos el cálculo
     myMenu.close()
     // Preguntar cuántas gallinas quiere
     cantidad = game.askForNumber("¿Cuántas gallinas quieres?")
     // Control de error: nada de 0 o negativos
     if (cantidad <= 0) {
         game.showLongText("La cantidad debe ser mayor que 0", DialogLayout.Center)
+        // Volver a dibujar el menú de trueques
+        dibujar_menu()
+    } else if (cantidad % 1 != 0) {
+        game.showLongText("Solo gallinas enteras", DialogLayout.Center)
+        // Volver a dibujar el menú de trueques
+        dibujar_menu()
     } else {
         // Cada gallina son 6 kg de leña
         kilos = cantidad * 6
         mensaje = "" + cantidad + " gallinas equivalen a " + ("" + kilos) + " kg de leña"
         game.showLongText(mensaje, DialogLayout.Center)
+        // Volver a dibujar el menú de trueques
+        dibujar_menu()
     }
-    // Volver a dibujar el menú de trueques
-    dibujar_menu()
 }
 function salir_menu () {
     // Cerrar el menú
@@ -282,7 +286,6 @@ function salir_menu () {
     menu_activo = false
     // Volver a mostrar la paloma
     paloma.setFlag(SpriteFlag.Invisible, false)
-    iniciar_juego()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     dibujar_menu()
@@ -295,9 +298,7 @@ function dibujar_menu () {
     miniMenu.createMenuItem("Cabras"),
     miniMenu.createMenuItem("Huevos"),
     miniMenu.createMenuItem("Caballos"),
-    miniMenu.createMenuItem("Salir"),
-    miniMenu.createMenuItem(""),
-    miniMenu.createMenuItem("")
+    miniMenu.createMenuItem("Salir")
     )
     myMenu.setDimensions(100, 75)
     myMenu.setPosition(75, 60)
@@ -305,8 +306,25 @@ function dibujar_menu () {
         if (selection == "Gallinas") {
             trueque_gallina()
         }
+        if (selection == "Patatas (kg) ") {
+            trueque_patatas()
+        }
+        if (selection == "Cabras") {
+            trueque_cabras()
+        }
+        if (selection == "Huevos") {
+            trueque_huevos()
+        }
+        if (selection == "Caballos") {
+            trueque_caballos()
+        }
+        if (selection == "Salir") {
+            salir_menu()
+        }
     })
 }
+let mensaje = ""
+let kilos = 0
 let cantidad = 0
 let myMenu: miniMenu.MenuSprite = null
 let arbol: Sprite = null

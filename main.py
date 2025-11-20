@@ -257,7 +257,7 @@ def iniciar_juego():
     controller.move_sprite(paloma, 100, 100)
     paloma.set_bounce_on_wall(True)
 def trueque_gallina():
-    global cantidad
+    global cantidad, kilos, mensaje
     # Cerrar el mini-menú mientras hacemos el cálculo
     myMenu.close()
     # Preguntar cuántas gallinas quiere
@@ -265,6 +265,8 @@ def trueque_gallina():
     # Control de error: nada de 0 o negativos
     if cantidad <= 0:
         game.show_long_text("La cantidad debe ser mayor que 0", DialogLayout.CENTER)
+    elif cantidad % 1 != 0:
+        game.show_long_text("Solo gallinas enteras", DialogLayout.CENTER)
     else:
         # Cada gallina son 6 kg de leña
         kilos = cantidad * 6
@@ -274,8 +276,6 @@ def trueque_gallina():
     dibujar_menu()
 def salir_menu():
     global menu_activo
-    global paloma
-    global myMenu
     # Cerrar el menú
     myMenu.close()
     # Marcar que ya no estamos en el menú
@@ -295,17 +295,27 @@ def dibujar_menu():
         miniMenu.create_menu_item("Cabras"),
         miniMenu.create_menu_item("Huevos"),
         miniMenu.create_menu_item("Caballos"),
-        miniMenu.create_menu_item("Salir"),
-        miniMenu.create_menu_item(""),
-        miniMenu.create_menu_item(""))
+        miniMenu.create_menu_item("Salir"))
     myMenu.set_dimensions(100, 75)
     myMenu.set_position(75, 60)
     
     def on_button_pressed(selection, selectedIndex):
         if selection == "Gallinas":
             trueque_gallina()
+        if selection == "Patatas (kg) ":
+            trueque_patatas()
+        if selection == "Cabras":
+            trueque_cabras()
+        if selection == "Huevos":
+            trueque_huevos()
+        if selection == "Caballos":
+            trueque_caballos()
+        if selection == "Salir":
+            salir_menu()
     myMenu.on_button_pressed(controller.A, on_button_pressed)
     
+mensaje = ""
+kilos = 0
 cantidad = 0
 myMenu: miniMenu.MenuSprite = None
 arbol: Sprite = None
